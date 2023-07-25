@@ -1,9 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
+import { searchExpectedResult } from './data/projects.data';
 import { AppModule } from '../src/app.module';
 
-describe('AppController (e2e)', () => {
+describe('ProjectsController (e2e)', () => {
+  const baseUrl = '/projects';
   let app: INestApplication;
 
   beforeEach(async () => {
@@ -15,10 +17,10 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/ (GET) /search', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get(`${baseUrl}/search`)
       .expect(200)
-      .expect('Hello World!');
+      .expect(searchExpectedResult);
   });
 });
