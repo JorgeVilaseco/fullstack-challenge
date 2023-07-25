@@ -18,8 +18,17 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@Test/data": [
+        "test/data/index.ts"
+      ],
+      "@Test/util": [
+        "test/util/index.ts"
+      ],
       "@Auth": [
         "src/auth/index.ts"
+      ],
+      "@Decorator": [
+        "src/decorators/index.ts"
       ]
     },
     "resolveJsonModule": true,

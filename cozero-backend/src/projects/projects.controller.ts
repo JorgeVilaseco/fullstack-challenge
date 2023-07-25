@@ -1,16 +1,16 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Post,
   Put,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
-import { SkipAuth } from 'src/decorators/skipAuth.decorator';
+import { SkipAuth } from '@Decorator';
 
 @Controller('projects')
 export class ProjectsController {

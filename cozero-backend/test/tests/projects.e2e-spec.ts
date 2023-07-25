@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { searchExpectedResult } from './data/projects.data';
-import { AppModule } from '../src/app.module';
+import { searchExpectedResult } from '../data/projects.data';
+import { AppModule } from '../../src/app.module';
 
 describe('ProjectsController (e2e)', () => {
   const baseUrl = '/projects';
