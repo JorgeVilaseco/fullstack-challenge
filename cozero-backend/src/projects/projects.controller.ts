@@ -28,6 +28,16 @@ export class ProjectsController {
   }
 
   @SkipAuth()
+  @Get('/search')
+  search(
+    @Param('queryParam') text: string,
+    @Param('page') page = 0,
+    @Param('pageSize') pageSize = 10,
+  ) {
+    return this.projectsService.searchByTitleDesc(text, page, pageSize);
+  }
+
+  @SkipAuth()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.projectsService.findOne(+id);

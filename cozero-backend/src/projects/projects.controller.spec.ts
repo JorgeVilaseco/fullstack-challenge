@@ -30,6 +30,8 @@ describe('ProjectsController', () => {
     const text = 'Lorem';
     const page = 0;
     const pageSize = 10;
-    expect(controller.search(text, page, pageSize)).toBe(searchExpectedResult);
+    expect(controller.search(text, page, pageSize)).resolves.toBe(
+      searchExpectedResult,
+    );
   });
 });
