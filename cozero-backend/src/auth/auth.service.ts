@@ -8,8 +8,7 @@ import { LocalAuthGuard } from './local-auth.guard';
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(forwardRef(() => UsersService))
-    private usersService: UsersService,
+    @Inject(forwardRef(() => UsersService)) private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
 

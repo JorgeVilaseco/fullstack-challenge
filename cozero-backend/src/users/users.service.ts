@@ -4,15 +4,13 @@ import { Repository } from 'typeorm';
 import { UserLoginDto } from './dto/user-login.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
-import { AuthService } from '@Auth';
+import { AuthService } from '@Auth/auth.service';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
-    @Inject(forwardRef(() => AuthService))
-    private authService: AuthService,
+    @InjectRepository(User) private usersRepository: Repository<User>,
+    @Inject(forwardRef(() => AuthService)) private authService: AuthService,
   ) {}
 
   async findOne(email: string): Promise<User | undefined> {

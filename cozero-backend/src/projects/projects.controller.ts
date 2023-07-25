@@ -10,7 +10,7 @@ import {
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
-import { SkipAuth } from '@Decorator';
+import { SkipAuth } from '@Decorator/skipAuth.decorator';
 
 @Controller('projects')
 export class ProjectsController {

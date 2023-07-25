@@ -1,11 +1,14 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Body, Controller, forwardRef, Inject, Post } from '@nestjs/common';
 import { SkipAuth } from 'src/decorators/skipAuth.decorator';
 import { UserLoginDto } from 'src/users/dto/user-login.dto';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    @Inject(forwardRef(() => AuthService))
+    private readonly authService: AuthService,
+  ) {}
 
   @SkipAuth()
   @Post('sign-in')

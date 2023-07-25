@@ -18,17 +18,17 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@Auth/*": [
+        "src/auth/*"
+      ],
       "@Test/data": [
         "test/data/index.ts"
       ],
       "@Test/util": [
         "test/util/index.ts"
       ],
-      "@Auth": [
-        "src/auth/index.ts"
-      ],
-      "@Decorator": [
-        "src/decorators/index.ts"
+      "@Decorator/*": [
+        "src/decorators/*"
       ],
       "@Entities/project": [
         "src/projects/entities/project.entity.ts"
@@ -37,7 +37,6 @@
         "src/users/entities/user.entity.ts"
       ]
     },
-    "resolveJsonModule": true,
-    "esModuleInterop": true
+    "resolveJsonModule": true
   }
 }
