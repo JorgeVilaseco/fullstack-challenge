@@ -29,6 +29,9 @@
       ],
       "@Decorator": [
         "src/decorators/index.ts"
+      ],
+      "@Entities": [
+        "src/projects/entities/project.entity.ts"
       ]
     },
     "resolveJsonModule": true,

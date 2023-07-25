@@ -6,8 +6,8 @@ import { searchExpectedResult } from '@Test/data';
 describe('ProjectsController', () => {
   let controller: ProjectsController;
   const projectServiceMock: Partial<ProjectsService> = {
-    searchByTitleDesc = (text, page, pageSize) => {
-      return searchExpectedResult;
+    searchByTitleDesc: (text, page, pageSize) => {
+      return new Promise((resolve) => resolve(searchExpectedResult));
     },
   };
 
