@@ -30,8 +30,11 @@
       "@Decorator": [
         "src/decorators/index.ts"
       ],
-      "@Entities": [
+      "@Entities/project": [
         "src/projects/entities/project.entity.ts"
+      ],
+      "@Entities/user": [
+        "src/users/entities/user.entity.ts"
       ]
     },
     "resolveJsonModule": true,

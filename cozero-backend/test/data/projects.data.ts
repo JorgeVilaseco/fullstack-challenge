@@ -1,4 +1,4 @@
-import { Project } from '@Entities';
+import { Project } from '@Entities/project';
 
 export const searchExpectedResult: Project[] = [
   {
