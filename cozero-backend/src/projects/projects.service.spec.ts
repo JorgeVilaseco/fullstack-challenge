@@ -31,11 +31,11 @@ describe('ProjectsService - ', () => {
 
   describe('searchByTitleDesc - ', () => {
     it('return the correct projects from the DB', () => {
-      repositoryMock.find.mockReturnValue(searchExpectedResult);
+      repositoryMock.find.mockResolvedValueOnce(searchExpectedResult);
       const text = 'Lorem';
       const page = 0;
       const pageSize = 10;
-      expect(service.searchByTitleDesc(text, page, pageSize)).toBe(
+      expect(service.searchByTitleDesc(text, page, pageSize)).resolves.toBe(
         searchExpectedResult,
       );
       expect(repositoryMock.find).toHaveBeenCalledWith({
@@ -43,6 +43,8 @@ describe('ProjectsService - ', () => {
           { name: Like(`%${text}%`) },
           { description: Like(`%${text}%`) },
         ],
+        skip: page * pageSize,
+        take: pageSize,
       });
     });
   });

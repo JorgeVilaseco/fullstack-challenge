@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { Project } from './entities/project.entity';
@@ -30,5 +30,13 @@ export class ProjectsService {
 
   async remove(id: number) {
     return this.projectsRepository.delete(id);
+  }
+
+  async searchByTitleDesc(text: string, page: number, pageSize: number) {
+    return this.projectsRepository.find({
+      where: [{ name: Like(`%${text}%`) }, { description: Like(`%${text}%`) }],
+      skip: page * pageSize,
+      take: pageSize,
+    });
   }
 }
