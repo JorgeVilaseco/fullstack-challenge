@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -30,9 +31,9 @@ export class ProjectsController {
   @SkipAuth()
   @Get('/search')
   search(
-    @Param('queryParam') text: string,
-    @Param('page') page = 0,
-    @Param('pageSize') pageSize = 10,
+    @Query('queryParam') text: string,
+    @Query('page') page = 0,
+    @Query('pageSize') pageSize = 10,
   ) {
     return this.projectsService.searchByTitleDesc(text, page, pageSize);
   }
