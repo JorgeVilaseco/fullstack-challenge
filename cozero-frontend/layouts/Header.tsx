@@ -1,32 +1,84 @@
-import { Box, Button, Flex } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  Input,
+  InputGroup,
+  InputRightElement,
+} from "@chakra-ui/react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useNavigate } from "react-router";
 import Menu from "../components/menu/Menu";
 import { SignInButton } from "../components/SignInButton";
 import { translate } from "../utils/language.utils";
+import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
+import React, { useContext, useState } from "react";
+import { onEnterPressed, onEscapePressed } from "../utils/key.utils";
+import { ProjectsContext } from "../context/projects";
 
 export default function Header() {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const { setProjectsContext } = useContext(ProjectsContext);
 
-    return (
-        <header>
-            <Flex justifyContent='space-between' p={6}>
-                <Menu />
-                <Flex alignItems='center' gap={4}>
-                    <Button
-                        variant="outline"
-                        id='new-project'
-                        leftIcon={<AiOutlinePlus />}
-                        onClick={() => {
-                            navigate("/projects/create")
-                        }}
-                    >
-                        {translate('NEW_PROJECT')}
-                    </Button>
-                    <SignInButton />
-                </Flex>
+  const doSearch = (data?: string) => {
+    data ??= searchQuery;
+    setProjectsContext(data);
+    navigate("/projects");
+  };
+  const closeSearch = () => {
+    setIsSearchActive(false);
+    setSearchQuery("");
+    doSearch("");
+  };
 
-            </Flex>
-        </header>
-    );
+  const inputStyle = {
+    width: "initial",
+    opacity: isSearchActive ? 1 : 0,
+    transition: ".5s opacity ease",
+    cursor: "pointer",
+  };
+
+  return (
+    <header>
+      <Flex justifyContent="space-between" p={8}>
+        <Menu />
+        <Flex alignItems="center" gap={3} w={"fit-content"}>
+          <InputGroup size="md" style={inputStyle}>
+            <Input
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={($event) => setSearchQuery($event.target.value)}
+              onKeyDown={(e) => {
+                onEnterPressed(e, doSearch);
+                onEscapePressed(e, closeSearch);
+              }}
+            />
+            <InputRightElement>
+              <CloseIcon boxSize={4} onClick={closeSearch} />
+            </InputRightElement>
+          </InputGroup>
+          <SearchIcon
+            boxSize={6}
+            onClick={() => {
+              if (isSearchActive) doSearch();
+              setIsSearchActive(true);
+            }}
+            style={{ cursor: "pointer" }}
+          />
+          <Button
+            variant="outline"
+            id="new-project"
+            leftIcon={<AiOutlinePlus />}
+            onClick={() => {
+              navigate("/projects/create");
+            }}
+          >
+            {translate("NEW_PROJECT")}
+          </Button>
+          <SignInButton />
+        </Flex>
+      </Flex>
+    </header>
+  );
 }
