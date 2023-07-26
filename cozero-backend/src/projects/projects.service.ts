@@ -32,7 +32,11 @@ export class ProjectsService {
     return this.projectsRepository.delete(id);
   }
 
-  async searchByTitleDesc(text: string, page: number, pageSize: number) {
+  async searchByTitleDesc(
+    text: string,
+    page: number,
+    pageSize: number,
+  ): Promise<Project[]> {
     return this.projectsRepository.find({
       where: [{ name: Like(`%${text}%`) }, { description: Like(`%${text}%`) }],
       skip: page * pageSize,

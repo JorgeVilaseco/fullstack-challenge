@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  Req,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -17,8 +18,10 @@ import { SkipAuth } from '@Decorator/skipAuth.decorator';
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
+  // @UseGuards(LocalAuthGuard)
   @Post('create')
-  create(@Body() project: CreateProjectDto) {
+  create(@Body() project: CreateProjectDto, @Req() req) {
+    project.owner = req.user.email;
     return this.projectsService.create(project);
   }
 
