@@ -3,7 +3,7 @@ import { pathsToModuleNameMapper } from 'ts-jest';
 
 module.exports = {
   moduleFileExtensions: ['js', 'json', 'ts'],
-  rootDir: '.',
+  rootDir: '../',
   testRegex: '.e2e-spec.ts$',
   preset: 'ts-jest',
   testEnvironment: 'node',

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthService } from '@Auth';
+import { AuthService } from '@Auth/auth.service';
 
 describe('AppController', () => {
   let appController: AppController;

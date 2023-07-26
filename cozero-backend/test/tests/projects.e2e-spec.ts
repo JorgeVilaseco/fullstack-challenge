@@ -19,7 +19,7 @@ describe('ProjectsController (e2e)', () => {
 
   it('/ (GET) /search', () => {
     return request(app.getHttpServer())
-      .get(`${baseUrl}/search`)
+      .get(`${baseUrl}/search?queryParam=lorem&page=0&pageSize=15`)
       .expect(200)
       .expect(searchExpectedResult);
   });
