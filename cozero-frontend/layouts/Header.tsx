@@ -12,7 +12,7 @@ import { SignInButton } from "../components/SignInButton";
 import { translate } from "../utils/language.utils";
 import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import React, { useContext, useState } from "react";
-import { onEnterPressed, onEscapePressed } from "../utils/key.utils";
+import { KeyboardKeys, onKeyPressed } from "../utils/key.utils";
 import { ProjectsContext } from "../context/projects";
 
 export default function Header() {
@@ -49,9 +49,9 @@ export default function Header() {
               placeholder="Search..."
               value={searchQuery}
               onChange={($event) => setSearchQuery($event.target.value)}
-              onKeyDown={(e) => {
-                onEnterPressed(e, doSearch);
-                onEscapePressed(e, closeSearch);
+              onKeyUp={(e) => {
+                onKeyPressed(e, KeyboardKeys.ENTER, doSearch);
+                onKeyPressed(e, KeyboardKeys.ESCAPE, closeSearch);
               }}
             />
             <InputRightElement>

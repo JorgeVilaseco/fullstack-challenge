@@ -1,10 +1,14 @@
-export const onEnterPressed = (e: KeyboardEvent, callback: Function) => {
-  if (e.key === "Enter") {
-    callback();
-  }
-};
-export const onEscapePressed = (e: KeyboardEvent, callback: Function) => {
-  if (e.key === "Escape") {
-    callback();
-  }
-};
+import { KeyboardEvent } from "react";
+
+export enum KeyboardKeys {
+  ENTER = "Enter",
+  ESCAPE = "Escape",
+}
+
+export function onKeyPressed(
+  e: KeyboardEvent<any>,
+  key: KeyboardKeys,
+  callback: Function
+) {
+  if (e.key === key) callback();
+}
