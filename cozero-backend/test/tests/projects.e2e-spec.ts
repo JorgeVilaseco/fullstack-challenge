@@ -1,7 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { searchExpectedResult } from '../data/projects.data';
+import {
+  inactiveProjectsExpectedResults,
+  searchExpectedResult,
+} from '../data/projects.data';
 import { AppModule } from '../../src/app.module';
 
 describe('ProjectsController (e2e)', () => {
@@ -22,5 +25,11 @@ describe('ProjectsController (e2e)', () => {
       .get(`${baseUrl}/search?queryParam=lorem&page=0&pageSize=15`)
       .expect(200)
       .expect(searchExpectedResult);
+  });
+  it('/ (GET) /inactive', () => {
+    return request(app.getHttpServer())
+      .get(`${baseUrl}/inactive?owner=test@cozero.dev&page=0&pageSize=15`)
+      .expect(200)
+      .expect(inactiveProjectsExpectedResults);
   });
 });

@@ -3,7 +3,10 @@ import { ProjectsService } from './projects.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Project } from './entities/project.entity';
 import { RepositoryMock, repositoryMockFactory } from '@Test/util';
-import { searchExpectedResult } from '@Test/data';
+import {
+  inactiveProjectsExpectedResults,
+  searchExpectedResult,
+} from '@Test/data';
 import { Like } from 'typeorm';
 
 describe('ProjectsService - ', () => {
@@ -43,6 +46,23 @@ describe('ProjectsService - ', () => {
           { name: Like(`%${text}%`) },
           { description: Like(`%${text}%`) },
         ],
+        skip: page * pageSize,
+        take: pageSize,
+      });
+    });
+  });
+  describe('getInactiveProjects - ', () => {
+    it('return the correct inactive projects from the DB', () => {
+      repositoryMock.find.mockResolvedValueOnce(searchExpectedResult);
+      const owner = 'test@cozero.dev';
+      const page = 0;
+      const pageSize = 15;
+      expect(service.getInactiveProjects(owner, page, pageSize)).resolves.toBe(
+        inactiveProjectsExpectedResults,
+      );
+      expect(repositoryMock.find).toHaveBeenCalledWith({
+        isActive: false,
+        owner: owner,
         skip: page * pageSize,
         take: pageSize,
       });

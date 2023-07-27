@@ -36,3 +36,5 @@ export const searchExpectedResult = [
     updatedAt: '2023-07-26T12:37:14.032Z',
   },
 ];
+
+export const inactiveProjectsExpectedResults = [];

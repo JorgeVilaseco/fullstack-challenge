@@ -1,7 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProjectsController } from './projects.controller';
 import { ProjectsService } from './projects.service';
-import { searchExpectedResult } from '@Test/data';
+import {
+  inactiveProjectsExpectedResults,
+  searchExpectedResult,
+} from '@Test/data';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { Project } from '@Entities/project';
 
@@ -10,6 +13,9 @@ describe('ProjectsController - ', () => {
   const projectServiceMock: Partial<ProjectsService> = {
     searchByTitleDesc: (text, page, pageSize) => {
       return new Promise((resolve) => resolve(searchExpectedResult));
+    },
+    getInactiveProjects: (text, page, pageSize) => {
+      return new Promise((resolve) => resolve(inactiveProjectsExpectedResults));
     },
     create: (data) => {
       const result: CreateProjectDto & Project = {
@@ -64,6 +70,16 @@ describe('ProjectsController - ', () => {
       expect(controller.create(requestBody, request)).resolves.toHaveProperty(
         'owner',
         request.user.email,
+      );
+    });
+  });
+  describe('Get Inactive - ', () => {
+    it('should return all inactive projects related to a user projects without changes', () => {
+      const owner = 'test@cozero.dev';
+      const page = 0;
+      const pageSize = 10;
+      expect(controller.getInactives(owner, page, pageSize)).resolves.toBe(
+        inactiveProjectsExpectedResults,
       );
     });
   });
