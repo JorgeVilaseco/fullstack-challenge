@@ -46,6 +46,7 @@ export default function Header() {
         <Flex alignItems="center" gap={3} w={"fit-content"}>
           <InputGroup size="md" style={inputStyle}>
             <Input
+              id="search-input"
               placeholder="Search..."
               value={searchQuery}
               onChange={($event) => setSearchQuery($event.target.value)}
@@ -59,6 +60,7 @@ export default function Header() {
             </InputRightElement>
           </InputGroup>
           <SearchIcon
+            id="search-btn"
             boxSize={6}
             onClick={() => {
               if (isSearchActive) doSearch();

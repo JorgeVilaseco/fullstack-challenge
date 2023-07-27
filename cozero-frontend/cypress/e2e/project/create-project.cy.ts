@@ -1,4 +1,4 @@
-// TODO: Generate random project information and login credentials
+// TODO: Generate random project information
 describe("Project creation flow", () => {
   Cypress.Cookies.debug(true);
 
@@ -8,13 +8,11 @@ describe("Project creation flow", () => {
       "next-auth.session-token"
     );
     cy.visit("/");
+    cy.login();
+    cy.wait(500);
   });
 
   it("should be available after the user is logged in", () => {
-    cy.login();
-    // Wait for the page to load
-    cy.wait(3000);
-
     cy.get("#new-project").click();
     cy.get('input[name="name"]').type("New project WENARDO");
     // Fill description
@@ -40,5 +38,14 @@ describe("Project creation flow", () => {
     cy.url().should("include", "/projects");
     // Check if the project name is in whole page
     cy.get("p").contains("New project");
+  });
+
+  it("should be able to search for projects by text", () => {
+    cy.contains("a", "Projects").click();
+    cy.get("#search-btn").click();
+    cy.wait(1000);
+    cy.get("#search-input").type("lorem").type("{enter}");
+    cy.wait(500);
+    expect(cy.get("#project-item"));
   });
 });

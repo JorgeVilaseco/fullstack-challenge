@@ -40,6 +40,7 @@ export default function ProjectItem({ project, onDelete }: Props) {
 
   return (
     <Box
+      className="project-item"
       border="1px"
       borderColor="gray.500"
       p={6}
