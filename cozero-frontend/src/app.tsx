@@ -11,6 +11,7 @@ import { ProjectViewPage } from "./projects/view";
 import { Auth, AuthContext, AuthContextType } from "../context/auth";
 import { useMemo, useState } from "react";
 import { ProjectsContext } from "../context/projects";
+import { GuardedRoute } from "../components/guarded-route/GuardedRoute";
 
 function App() {
   const [authContext, setAuthContext] = useState<Auth>();
@@ -35,23 +36,41 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/projects" element={<ProjectsList />} />
-                <Route
-                  path="/sign-up"
-                  element={<LoginPage isSignUp={true} />}
-                />
-                <Route
-                  path="/sign-in"
-                  element={<LoginPage isSignUp={false} />}
-                />
-                <Route
-                  path="/projects/create"
-                  element={<CreateProjectPage />}
-                />
                 <Route path="/projects/:id" element={<ProjectViewPage />} />
                 <Route
-                  path="/projects/:id/edit"
-                  element={<CreateProjectPage />}
-                />
+                  element={
+                    <GuardedRoute
+                      isAuthenticated={!authContext?.user?.access_token}
+                      redirectRoute={"/"}
+                    />
+                  }
+                >
+                  <Route
+                    path="/sign-up"
+                    element={<LoginPage isSignUp={true} />}
+                  />
+                  <Route
+                    path="/sign-in"
+                    element={<LoginPage isSignUp={false} />}
+                  />
+                </Route>
+                <Route
+                  element={
+                    <GuardedRoute
+                      isAuthenticated={!!authContext?.user?.access_token}
+                      redirectRoute={"/sign-in"}
+                    />
+                  }
+                >
+                  <Route
+                    path="/projects/create"
+                    element={<CreateProjectPage />}
+                  />
+                  <Route
+                    path="/projects/:id/edit"
+                    element={<CreateProjectPage />}
+                  />
+                </Route>
               </Routes>
             </Layout>
           </BrowserRouter>
