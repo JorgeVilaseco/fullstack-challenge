@@ -10,6 +10,7 @@ export const searchExpectedResult = [
     listing: [],
     createdAt: '2023-07-26T12:35:06.210Z',
     updatedAt: '2023-07-26T12:35:06.210Z',
+    deletedAt: null,
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ export const searchExpectedResult = [
     listing: [],
     createdAt: '2023-07-26T12:36:11.838Z',
     updatedAt: '2023-07-26T12:36:11.838Z',
+    deletedAt: null,
   },
   {
     id: 3,
@@ -34,7 +36,21 @@ export const searchExpectedResult = [
     listing: [],
     createdAt: '2023-07-26T12:37:14.032Z',
     updatedAt: '2023-07-26T12:37:14.032Z',
+    deletedAt: null,
   },
 ];
 
-export const inactiveProjectsExpectedResults = [];
+export const inactiveProjectsExpectedResults = [
+  {
+    id: 19,
+    name: 'A Project to Delete',
+    description: 'This is a project for soft delete',
+    co2EstimateReduction: ['100', '500'],
+    isActive: true,
+    owner: 'test@cozero.dev',
+    listing: ['delete'],
+    createdAt: '2023-07-27T14:16:09.648Z',
+    updatedAt: '2023-07-27T14:16:14.000Z',
+    deletedAt: '2023-07-27T14:16:14.000Z',
+  },
+];

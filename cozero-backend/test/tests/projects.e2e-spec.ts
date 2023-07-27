@@ -6,6 +6,8 @@ import {
   searchExpectedResult,
 } from '../data/projects.data';
 import { AppModule } from '../../src/app.module';
+import { JwtAuthGuard } from '@Auth/jwt-auth.guard';
+import { MockAuthGuard } from '../util/mock-auth.util';
 
 describe('ProjectsController (e2e)', () => {
   const baseUrl = '/projects';
@@ -14,7 +16,10 @@ describe('ProjectsController (e2e)', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(JwtAuthGuard)
+      .useClass(MockAuthGuard)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
@@ -28,7 +33,7 @@ describe('ProjectsController (e2e)', () => {
   });
   it('/ (GET) /inactive', () => {
     return request(app.getHttpServer())
-      .get(`${baseUrl}/inactive?owner=test@cozero.dev&page=0&pageSize=15`)
+      .get(`${baseUrl}/inactive?page=0&pageSize=15`)
       .expect(200)
       .expect(inactiveProjectsExpectedResults);
   });

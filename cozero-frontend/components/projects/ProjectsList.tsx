@@ -28,8 +28,6 @@ export default function ProjectsList() {
   }, []);
 
   useEffect(() => {
-    console.log("loading...");
-    console.log(projectsContext);
     fetchProjects(projectsContext);
   }, [page, projectsContext]);
 

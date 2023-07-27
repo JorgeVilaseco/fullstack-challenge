@@ -47,7 +47,6 @@ export class ProjectsController {
     @Query('pageSize') pageSize = 10,
     @Req() req,
   ) {
-    console.log(req.user.email);
     return this.projectsService.getInactiveProjects(
       req.user.email,
       page,

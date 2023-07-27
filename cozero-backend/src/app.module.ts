@@ -36,8 +36,9 @@ import { ConfigModule } from '@nestjs/config';
     AppService,
     {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard, // Set authorization guard for all routes
+      useExisting: JwtAuthGuard, // Set authorization guard for all routes
     },
+    JwtAuthGuard,
   ],
 })
 export class AppModule {}
