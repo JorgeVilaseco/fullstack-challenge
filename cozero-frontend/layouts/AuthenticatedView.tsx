@@ -5,7 +5,6 @@ import LocalStorageService from "../services/LocalStorageService";
 
 export default function AuthenticatedView({ children, to }: AuthProps) {
   const token = LocalStorageService.getJwtToken();
-  console.log(token);
   const navigate = useNavigate();
   to ??= "/sign-in";
 

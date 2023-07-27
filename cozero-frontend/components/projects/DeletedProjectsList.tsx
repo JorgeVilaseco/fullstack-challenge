@@ -27,7 +27,7 @@ export default function InactiveProjectsList() {
   }, [page]);
 
   const onReinstate = async (projectId: string) => {
-    const reinstatedProject = await ProjectsService.deleteProject(projectId);
+    const reinstatedProject = await ProjectsService.reinstateProject(projectId);
 
     toast({
       title: translate(

@@ -76,11 +76,13 @@ export default function ProjectItem({ project, onDelete, onReinstate }: Props) {
               />
               {onDelete ? (
                 <BsFillTrashFill
+                  id="delete-project-btn"
                   cursor="pointer"
                   onClick={() => setIsDeleteConfirmationOpen(true)}
                 />
               ) : (
                 <RepeatIcon
+                  id="reinstate-project-btn"
                   cursor="pointer"
                   onClick={() => setIsDeleteConfirmationOpen(true)}
                 />

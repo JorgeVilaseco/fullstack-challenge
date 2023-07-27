@@ -32,7 +32,7 @@ class ProjectsService {
 
       return this.sortProjects(projects);
     } catch (e) {
-      console.log("Error fetching projects", e);
+      console.log("Error fetching projects by ", queryParam, e);
       return Promise.resolve([]);
     }
   }
@@ -42,18 +42,15 @@ class ProjectsService {
     pageSize = 10
   ): Promise<Project[] | undefined> {
     try {
-      console.log("making the call...");
       const jwtToken = LocalStorageService.getJwtToken();
-      console.log("token: ", jwtToken);
 
       const projects = await HTTPService.get<Project[]>(
         `projects/inactive?page=${page}&pageSize=${pageSize}`,
         jwtToken
       );
-      console.log("projects: ", projects);
       return this.sortProjects(projects);
     } catch (e) {
-      console.log("Error fetching projects", e);
+      console.log("Error fetching inactive projects", e);
       return Promise.resolve([]);
     }
   }
@@ -62,7 +59,7 @@ class ProjectsService {
     try {
       return HTTPService.get<Project>(`projects/${id}`);
     } catch (e) {
-      console.log("Error fetching project", e);
+      console.log("Error fetching projects by id", e);
       return Promise.resolve(undefined);
     }
   }
@@ -78,7 +75,7 @@ class ProjectsService {
         jwtToken
       );
     } catch (e) {
-      console.log("Error deleting project", e);
+      console.log("Error updating project", e);
     }
   }
 
@@ -113,6 +110,21 @@ class ProjectsService {
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
   };
+
+  public async reinstateProject(
+    id: number
+  ): Promise<DeleteProjectResult | undefined> {
+    try {
+      const jwtToken = LocalStorageService.getJwtToken();
+      return HTTPService.put<DeleteProjectResult>(
+        `projects/reinstate/${id}`,
+        {},
+        jwtToken
+      );
+    } catch (e) {
+      console.log("Error reinstating project", e);
+    }
+  }
 }
 
 export default new ProjectsService();

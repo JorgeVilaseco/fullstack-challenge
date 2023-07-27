@@ -6,9 +6,7 @@ import LocalStorageService from "../services/LocalStorageService";
 export default function UnauthenticatedView({ children, to }: AuthProps) {
   const token = LocalStorageService.getJwtToken();
   const navigate = useNavigate();
-  console.log(to);
   to ??= "/";
-  console.log(to);
 
   useEffect(() => {
     if (status === "loading") {
