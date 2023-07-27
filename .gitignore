@@ -38,3 +38,6 @@ out
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Local Config files
+cozero-frontend/cypress.env.json
