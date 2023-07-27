@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
+import { IsNull, Like, Not, Repository } from 'typeorm';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { Project } from './entities/project.entity';
@@ -17,7 +17,9 @@ export class ProjectsService {
   }
 
   async findAll(): Promise<Project[]> {
-    return this.projectsRepository.find();
+    return this.projectsRepository.find({
+      withDeleted: false,
+    });
   }
 
   async findOne(id: number) {
@@ -29,7 +31,7 @@ export class ProjectsService {
   }
 
   async remove(id: number) {
-    return this.projectsRepository.delete(id);
+    return this.projectsRepository.softDelete(id);
   }
 
   async searchByTitleDesc(
@@ -41,6 +43,23 @@ export class ProjectsService {
       where: [{ name: Like(`%${text}%`) }, { description: Like(`%${text}%`) }],
       skip: page * pageSize,
       take: pageSize,
+      withDeleted: false,
+    });
+  }
+
+  async getInactiveProjects(
+    owner: string,
+    page: number,
+    pageSize: number,
+  ): Promise<Project[]> {
+    return this.projectsRepository.find({
+      where: {
+        owner: owner,
+        deletedAt: Not(IsNull()),
+      },
+      skip: page * pageSize,
+      take: pageSize,
+      withDeleted: true,
     });
   }
 }

@@ -41,6 +41,20 @@ export class ProjectsController {
     return this.projectsService.searchByTitleDesc(text, page, pageSize);
   }
 
+  @Get('inactive')
+  getInactives(
+    @Query('page') page = 0,
+    @Query('pageSize') pageSize = 10,
+    @Req() req,
+  ) {
+    console.log(req.user.email);
+    return this.projectsService.getInactiveProjects(
+      req.user.email,
+      page,
+      pageSize,
+    );
+  }
+
   @SkipAuth()
   @Get(':id')
   findOne(@Param('id') id: string) {

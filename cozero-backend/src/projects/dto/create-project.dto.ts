@@ -14,7 +14,7 @@ export class CreateProjectDto {
   @IsArray()
   @ArrayMinSize(2)
   @ArrayMaxSize(2)
-  co2EstimateReduction: number[];
+  co2EstimateReduction: string[];
   owner: string;
   @IsArray()
   @ArrayNotEmpty()

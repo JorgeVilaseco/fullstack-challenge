@@ -53,7 +53,9 @@ describe('ProjectsService - ', () => {
   });
   describe('getInactiveProjects - ', () => {
     it('return the correct inactive projects from the DB', () => {
-      repositoryMock.find.mockResolvedValueOnce(searchExpectedResult);
+      repositoryMock.find.mockResolvedValueOnce(
+        inactiveProjectsExpectedResults,
+      );
       const owner = 'test@cozero.dev';
       const page = 0;
       const pageSize = 15;
@@ -61,10 +63,12 @@ describe('ProjectsService - ', () => {
         inactiveProjectsExpectedResults,
       );
       expect(repositoryMock.find).toHaveBeenCalledWith({
-        isActive: false,
-        owner: owner,
+        where: {
+          owner: owner,
+        },
         skip: page * pageSize,
         take: pageSize,
+        withDeleted: true,
       });
     });
   });

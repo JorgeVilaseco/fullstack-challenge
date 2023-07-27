@@ -1,8 +1,9 @@
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
@@ -18,7 +19,7 @@ export class Project {
   description: string;
 
   @Column('simple-array')
-  co2EstimateReduction: number[];
+  co2EstimateReduction: string[];
 
   @Column({ default: true })
   isActive: boolean;
@@ -34,4 +35,6 @@ export class Project {
 
   @UpdateDateColumn()
   updatedAt: string;
+  @DeleteDateColumn()
+  deletedAt: string;
 }

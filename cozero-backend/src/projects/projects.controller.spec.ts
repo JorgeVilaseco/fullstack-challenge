@@ -18,7 +18,7 @@ describe('ProjectsController - ', () => {
       return new Promise((resolve) => resolve(inactiveProjectsExpectedResults));
     },
     create: (data) => {
-      const result: CreateProjectDto & Project = {
+      const result: Project = {
         ...data,
         isActive: true,
         createdAt: 'date',
@@ -58,12 +58,12 @@ describe('ProjectsController - ', () => {
   describe('Create - ', () => {
     it('should join the user from the request to the DTO', () => {
       const request = {
-        user: { email: 'test@cozero.com' },
+        user: { email: 'test@cozero.dev' },
       };
       const requestBody: CreateProjectDto = {
         name: 'test',
         description: 'test',
-        co2EstimateReduction: [0, 1],
+        co2EstimateReduction: ['0', '1'],
         listing: [],
         owner: undefined,
       };
@@ -75,10 +75,12 @@ describe('ProjectsController - ', () => {
   });
   describe('Get Inactive - ', () => {
     it('should return all inactive projects related to a user projects without changes', () => {
-      const owner = 'test@cozero.dev';
       const page = 0;
       const pageSize = 10;
-      expect(controller.getInactives(owner, page, pageSize)).resolves.toBe(
+      const request = {
+        user: { email: 'test@cozero.dev' },
+      };
+      expect(controller.getInactives(page, pageSize, request)).resolves.toBe(
         inactiveProjectsExpectedResults,
       );
     });
