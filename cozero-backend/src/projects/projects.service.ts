@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Like, Not, Repository } from 'typeorm';
+import { IsNull, Like, Not, Repository, UpdateResult } from 'typeorm';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { Project } from './entities/project.entity';
@@ -61,5 +61,17 @@ export class ProjectsService {
       take: pageSize,
       withDeleted: true,
     });
+  }
+
+  async reinstateProjects(owner: string, id: number): Promise<UpdateResult> {
+    const project = await this.projectsRepository.findOneOrFail({
+      where: {
+        id,
+      },
+      withDeleted: true,
+    });
+    if (project.owner !== owner)
+      throw new Error("Can't reinstate a project that is not yours");
+    return this.projectsRepository.restore(id);
   }
 }

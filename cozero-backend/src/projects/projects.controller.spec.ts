@@ -91,7 +91,7 @@ describe('ProjectsController - ', () => {
   });
   describe('PUT Reinstate - ', () => {
     it('should get to user from the request', () => {
-      const projectId = 19;
+      const projectId = '19';
       const request = {
         user: { email: 'test@cozero.dev' },
       };

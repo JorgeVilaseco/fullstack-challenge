@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -63,6 +64,11 @@ export class ProjectsController {
   @Put(':id')
   update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
     return this.projectsService.update(+id, updateProjectDto);
+  }
+
+  @Put('/reinstate/:id')
+  reinstate(@Param('id', ParseIntPipe) id: string, @Req() req) {
+    return this.projectsService.reinstateProjects(req.user.email, +id);
   }
 
   @Delete(':id')

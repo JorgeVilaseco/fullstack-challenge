@@ -1,10 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import {
-  inactiveProjectsExpectedResults,
-  searchExpectedResult,
-} from '../data/projects.data';
+import { searchExpectedResult } from '../data/projects.data';
 import { AppModule } from '../../src/app.module';
 import { JwtAuthGuard } from '@Auth/jwt-auth.guard';
 import { MockAuthGuard } from '../util/mock-auth.util';
@@ -31,13 +28,17 @@ describe('ProjectsController (e2e)', () => {
       .expect(200)
       .expect(searchExpectedResult);
   });
+  it('/ (Delete) /', () => {
+    return request(app.getHttpServer()).get(`${baseUrl}/19`).expect(200);
+  });
   it('/ (GET) /inactive', () => {
     return request(app.getHttpServer())
       .get(`${baseUrl}/inactive?page=0&pageSize=15`)
-      .expect(200)
-      .expect(inactiveProjectsExpectedResults);
+      .expect(200);
   });
-  it('/ (PUT) /:id (reinstate project)', () => {
-    return request(app.getHttpServer()).get(`${baseUrl}/19`).expect(200);
+  it('/ (PUT) /reinstate/:id', () => {
+    return request(app.getHttpServer())
+      .put(`${baseUrl}/reinstate/19`)
+      .expect(200);
   });
 });

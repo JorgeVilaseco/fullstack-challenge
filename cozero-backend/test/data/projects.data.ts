@@ -50,7 +50,7 @@ export const inactiveProjectsExpectedResults = [
     owner: 'test@cozero.dev',
     listing: ['delete'],
     createdAt: '2023-07-27T14:16:09.648Z',
-    updatedAt: '2023-07-27T14:16:14.000Z',
-    deletedAt: '2023-07-27T14:16:14.000Z',
+    updatedAt: '2023-07-27T20:15:39.000Z',
+    deletedAt: '2023-07-27T20:15:39.000Z',
   },
 ];
