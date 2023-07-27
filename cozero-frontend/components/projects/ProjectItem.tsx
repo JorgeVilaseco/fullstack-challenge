@@ -13,11 +13,11 @@ import { MdModeEditOutline } from "react-icons/md";
 import { BsFillTrashFill } from "react-icons/bs";
 import TimeAgo from "react-timeago";
 import SimpleConfirmationAlert from "../DeleteProjectConfirmation";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { translate } from "../../utils/language.utils";
 import { useNavigate } from "react-router";
-import { AuthContext } from "../../context/auth";
 import { RepeatIcon } from "@chakra-ui/icons";
+import { useAuth } from "../../hooks/useAuth";
 
 interface Props {
   project: Project;
@@ -32,8 +32,8 @@ export default function ProjectItem({ project, onDelete, onReinstate }: Props) {
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
     useState(false);
   const navigate = useNavigate();
-  const { authContext } = useContext(AuthContext);
-  const userEmail = authContext?.user?.email;
+  const { user } = useAuth();
+  const userEmail = user?.email;
   let header = "";
   let confirmationText = "";
   let action: Function;

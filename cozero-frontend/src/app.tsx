@@ -12,7 +12,6 @@ import { Auth, AuthContext, AuthContextType } from "../context/auth";
 import { useMemo, useState } from "react";
 import { ProjectsContext } from "../context/projects";
 import InactiveProjectPage from "./projects/deleted";
-import UnauthenticatedView from "../layouts/UnauthenticatedView";
 
 function App() {
   const [authContext, setAuthContext] = useState<Auth>();
@@ -38,19 +37,11 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route
                   path="/sign-up"
-                  element={
-                    <UnauthenticatedView to="/">
-                      <LoginPage isSignUp={true} />
-                    </UnauthenticatedView>
-                  }
+                  element={<LoginPage isSignUp={true} />}
                 />
                 <Route
                   path="/sign-in"
-                  element={
-                    <UnauthenticatedView to="/">
-                      <LoginPage isSignUp={false} />
-                    </UnauthenticatedView>
-                  }
+                  element={<LoginPage isSignUp={false} />}
                 />
                 <Route
                   path="/projects/create"

@@ -11,6 +11,7 @@
 //
 //
 // -- This is a parent command --
+
 Cypress.Commands.add("login", () => {
   cy.get("#new-project").click();
   // Fill email and password type inputs
@@ -18,6 +19,25 @@ Cypress.Commands.add("login", () => {
   cy.get('input[name="password"]').type(Cypress.env("COZERO_TEST_PASSWORD"));
   // Click on the submit type button
   cy.get("button").contains("Sign in").click();
+});
+Cypress.Commands.add("deleteProject", (id: number) => {
+  cy.request({
+    method: "POST",
+    url: `${Cypress.env("COZERO_TEST_API")}/auth/login`,
+    body: {
+      email: Cypress.env("COZERO_TEST_USER"),
+      password: Cypress.env("COZERO_TEST_PASSWORD"),
+    },
+  }).then(({ body }) => {
+    cy.request({
+      method: "DELETE",
+      url: `${Cypress.env("COZERO_TEST_API")}/projects/${id}`,
+      headers: {
+        Authorization: `Bearer ${body.access_token}`,
+      },
+    });
+  });
+  cy.request;
 });
 //
 //
@@ -36,6 +56,8 @@ declare global {
   namespace Cypress {
     interface Chainable {
       login(): Chainable<void>;
+
+      deleteProject(id: number): Chainable<void>;
     }
   }
 }

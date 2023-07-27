@@ -1,10 +1,10 @@
-import { useContext, useEffect } from "react";
-import { AuthContext } from "../context/auth";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { AuthProps } from "../interfaces/auth.interface";
+import LocalStorageService from "../services/LocalStorageService";
 
 export default function UnauthenticatedView({ children, to }: AuthProps) {
-  const { authContext } = useContext(AuthContext);
+  const token = LocalStorageService.getJwtToken();
   const navigate = useNavigate();
   console.log(to);
   to ??= "/";
@@ -15,13 +15,12 @@ export default function UnauthenticatedView({ children, to }: AuthProps) {
       return;
     }
 
-    console.log(authContext?.user?.access_token);
-    if (authContext?.user?.access_token) {
+    if (token) {
       navigate("/");
     }
   }, []);
 
-  if (!authContext?.user?.access_token) {
+  if (!token) {
     return <>{children}</>;
   }
 

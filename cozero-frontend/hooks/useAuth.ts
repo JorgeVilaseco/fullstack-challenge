@@ -60,14 +60,5 @@ export const useAuth = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (!user) {
-      LocalStorageService.removeItem("user");
-      return;
-    }
-
-    LocalStorageService.setItem("user", user);
-  }, [user]);
-
   return { user, logIn: signIn, signOut, signUp };
 };

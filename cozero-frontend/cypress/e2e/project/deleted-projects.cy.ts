@@ -1,6 +1,4 @@
 describe("Project search flow", () => {
-  Cypress.Cookies.deleted(true);
-
   beforeEach(() => {
     Cypress.Cookies.preserveOnce(
       "next-auth.csrf-token",
@@ -9,6 +7,7 @@ describe("Project search flow", () => {
     cy.visit("/");
     cy.login();
     cy.wait(500);
+    cy.deleteProject(19);
   });
 
   it("should be able to see deleted projects by user", () => {

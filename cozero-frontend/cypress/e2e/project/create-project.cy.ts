@@ -39,13 +39,4 @@ describe("Project creation flow", () => {
     // Check if the project name is in whole page
     cy.get("p").contains("New project");
   });
-
-  it("should be able to search for projects by text", () => {
-    cy.contains("a", "Projects").click();
-    cy.get("#search-btn").click();
-    cy.wait(1000);
-    cy.get("#search-input").type("lorem").type("{enter}");
-    cy.wait(500);
-    expect(cy.get("#project-item"));
-  });
 });

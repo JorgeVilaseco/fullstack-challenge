@@ -11,6 +11,7 @@ import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import { translate } from "../utils/language.utils";
+import UnauthenticatedView from "../layouts/UnauthenticatedView";
 
 interface Props {
   isSignUp: boolean;
@@ -38,7 +39,7 @@ const LoginPage = ({ isSignUp }: Props) => {
   const isButtonDisabled = email.length === 0 || password.length === 0;
 
   return (
-    <>
+    <UnauthenticatedView>
       <form onSubmit={handleSubmit}>
         <Stack spacing={8}>
           <FormControl isRequired>
@@ -83,8 +84,8 @@ const LoginPage = ({ isSignUp }: Props) => {
           {translate(isSignUp ? "SIGN_IN" : "SIGN_UP")}
         </Text>
       </Flex>
-    </>
+    </UnauthenticatedView>
   );
 };
 
-export default LoginPage
+export default LoginPage;
