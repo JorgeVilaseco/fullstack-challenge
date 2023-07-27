@@ -17,6 +17,9 @@ describe('ProjectsController - ', () => {
     getInactiveProjects: (text, page, pageSize) => {
       return new Promise((resolve) => resolve(inactiveProjectsExpectedResults));
     },
+    reinstateProject: (owner, projectId) => {
+      return new Promise((resolve) => resolve());
+    },
     create: (data) => {
       const result: Project = {
         ...data,
@@ -24,6 +27,7 @@ describe('ProjectsController - ', () => {
         createdAt: 'date',
         updatedAt: 'date',
         id: 1,
+        deletedAt: null,
       };
       return new Promise((resolve) => resolve(result));
     },
@@ -81,6 +85,17 @@ describe('ProjectsController - ', () => {
         user: { email: 'test@cozero.dev' },
       };
       expect(controller.getInactives(page, pageSize, request)).resolves.toBe(
+        inactiveProjectsExpectedResults,
+      );
+    });
+  });
+  describe('PUT Reinstate - ', () => {
+    it('should get to user from the request', () => {
+      const projectId = 19;
+      const request = {
+        user: { email: 'test@cozero.dev' },
+      };
+      expect(controller.reinstate(projectId, request)).resolves.toBe(
         inactiveProjectsExpectedResults,
       );
     });

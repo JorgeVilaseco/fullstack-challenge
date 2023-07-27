@@ -37,4 +37,7 @@ describe('ProjectsController (e2e)', () => {
       .expect(200)
       .expect(inactiveProjectsExpectedResults);
   });
+  it('/ (PUT) /:id (reinstate project)', () => {
+    return request(app.getHttpServer()).get(`${baseUrl}/19`).expect(200);
+  });
 });

@@ -72,4 +72,17 @@ describe('ProjectsService - ', () => {
       });
     });
   });
+  describe('reinstateProject - ', () => {
+    it('it is called with the correct parameter', () => {
+      const owner = 'test@cozero.dev';
+      const projectId = 19;
+      service.reinstateProject(owner, projectId);
+      expect(repositoryMock.restore).toHaveBeenCalledWith({
+        where: {
+          owner: owner,
+          id: projectId,
+        },
+      });
+    });
+  });
 });
