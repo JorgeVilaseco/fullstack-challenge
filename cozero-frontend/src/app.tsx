@@ -11,7 +11,8 @@ import { ProjectViewPage } from "./projects/view";
 import { Auth, AuthContext, AuthContextType } from "../context/auth";
 import { useMemo, useState } from "react";
 import { ProjectsContext } from "../context/projects";
-import { GuardedRoute } from "../components/guarded-route/GuardedRoute";
+import InactiveProjectPage from "./projects/deleted";
+import UnauthenticatedView from "../layouts/UnauthenticatedView";
 
 function App() {
   const [authContext, setAuthContext] = useState<Auth>();
@@ -35,42 +36,36 @@ function App() {
             <Layout>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route
+                  path="/sign-up"
+                  element={
+                    <UnauthenticatedView to="/">
+                      <LoginPage isSignUp={true} />
+                    </UnauthenticatedView>
+                  }
+                />
+                <Route
+                  path="/sign-in"
+                  element={
+                    <UnauthenticatedView to="/">
+                      <LoginPage isSignUp={false} />
+                    </UnauthenticatedView>
+                  }
+                />
+                <Route
+                  path="/projects/create"
+                  element={<CreateProjectPage />}
+                />
+                <Route
+                  path="/projects/deleted"
+                  element={<InactiveProjectPage />}
+                />
+                <Route
+                  path="/projects/:id/edit"
+                  element={<CreateProjectPage />}
+                />
                 <Route path="/projects" element={<ProjectsList />} />
                 <Route path="/projects/:id" element={<ProjectViewPage />} />
-                <Route
-                  element={
-                    <GuardedRoute
-                      isAuthenticated={!authContext?.user?.access_token}
-                      redirectRoute={"/"}
-                    />
-                  }
-                >
-                  <Route
-                    path="/sign-up"
-                    element={<LoginPage isSignUp={true} />}
-                  />
-                  <Route
-                    path="/sign-in"
-                    element={<LoginPage isSignUp={false} />}
-                  />
-                </Route>
-                <Route
-                  element={
-                    <GuardedRoute
-                      isAuthenticated={!!authContext?.user?.access_token}
-                      redirectRoute={"/sign-in"}
-                    />
-                  }
-                >
-                  <Route
-                    path="/projects/create"
-                    element={<CreateProjectPage />}
-                  />
-                  <Route
-                    path="/projects/:id/edit"
-                    element={<CreateProjectPage />}
-                  />
-                </Route>
               </Routes>
             </Layout>
           </BrowserRouter>

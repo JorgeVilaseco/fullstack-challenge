@@ -12,30 +12,45 @@ import { FaLeaf } from "react-icons/fa";
 import { MdModeEditOutline } from "react-icons/md";
 import { BsFillTrashFill } from "react-icons/bs";
 import TimeAgo from "react-timeago";
-import DeleteProjectConfirmation from "../DeleteProjectConfirmation";
+import SimpleConfirmationAlert from "../DeleteProjectConfirmation";
 import { useContext, useState } from "react";
 import { translate } from "../../utils/language.utils";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../../context/auth";
+import { RepeatIcon } from "@chakra-ui/icons";
 
 interface Props {
   project: Project;
-  onDelete: (projectId: string) => void;
+  onDelete?: (projectId: string) => void;
+  onReinstate?: (projectId: string) => void;
 }
 
 const LeafIcon = chakra(FaLeaf);
 const TimeAgeComponent = chakra(TimeAgo);
 
-export default function ProjectItem({ project, onDelete }: Props) {
+export default function ProjectItem({ project, onDelete, onReinstate }: Props) {
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
     useState(false);
   const navigate = useNavigate();
   const { authContext } = useContext(AuthContext);
   const userEmail = authContext?.user?.email;
+  let header = "";
+  let confirmationText = "";
+  let action: Function;
 
-  const onDeleteAction = () => {
+  if (onDelete) {
+    header = translate("DELETE_PROJECT");
+    confirmationText = translate("DELETE_PROJECT_DESCRIPTION");
+    action = onDelete;
+  } else if (onReinstate) {
+    header = translate("REINSTATE_PROJECT");
+    confirmationText = translate("REINSTATE_PROJECT_DESCRIPTION");
+    action = onReinstate;
+  }
+
+  const onAction = () => {
     setIsDeleteConfirmationOpen(false);
-    onDelete(project.id);
+    action(project.id);
   };
 
   return (
@@ -59,10 +74,17 @@ export default function ProjectItem({ project, onDelete }: Props) {
                 cursor="pointer"
                 onClick={() => navigate(`/projects/${project.id}/edit`)}
               />
-              <BsFillTrashFill
-                cursor="pointer"
-                onClick={() => setIsDeleteConfirmationOpen(true)}
-              />
+              {onDelete ? (
+                <BsFillTrashFill
+                  cursor="pointer"
+                  onClick={() => setIsDeleteConfirmationOpen(true)}
+                />
+              ) : (
+                <RepeatIcon
+                  cursor="pointer"
+                  onClick={() => setIsDeleteConfirmationOpen(true)}
+                />
+              )}
             </Flex>
           )}
         </Flex>
@@ -102,10 +124,12 @@ export default function ProjectItem({ project, onDelete }: Props) {
           </Flex>
         </Flex>
       </Stack>
-      <DeleteProjectConfirmation
+      <SimpleConfirmationAlert
+        header={header}
+        text={confirmationText}
         isOpen={isDeleteConfirmationOpen}
         onClose={() => setIsDeleteConfirmationOpen(false)}
-        onDelete={onDeleteAction}
+        onAction={onAction}
       />
     </Box>
   );

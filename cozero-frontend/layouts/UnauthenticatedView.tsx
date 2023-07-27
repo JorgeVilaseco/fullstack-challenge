@@ -3,10 +3,12 @@ import { AuthContext } from "../context/auth";
 import { useNavigate } from "react-router";
 import { AuthProps } from "../interfaces/auth.interface";
 
-export default function AuthenticatedView({ children, to }: AuthProps) {
+export default function UnauthenticatedView({ children, to }: AuthProps) {
   const { authContext } = useContext(AuthContext);
   const navigate = useNavigate();
-  to ??= "/sign-in";
+  console.log(to);
+  to ??= "/";
+  console.log(to);
 
   useEffect(() => {
     if (status === "loading") {
@@ -14,12 +16,12 @@ export default function AuthenticatedView({ children, to }: AuthProps) {
     }
 
     console.log(authContext?.user?.access_token);
-    if (!authContext?.user?.access_token) {
-      navigate(to);
+    if (authContext?.user?.access_token) {
+      navigate("/");
     }
-  }, [authContext]);
+  }, []);
 
-  if (authContext?.user?.access_token) {
+  if (!authContext?.user?.access_token) {
     return <>{children}</>;
   }
 
