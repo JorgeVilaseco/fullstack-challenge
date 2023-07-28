@@ -19,7 +19,6 @@ import { SkipAuth } from '@Decorator/skipAuth.decorator';
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
-  // @UseGuards(LocalAuthGuard)
   @Post('create')
   create(@Body() project: CreateProjectDto, @Req() req) {
     project.owner = req.user.email;

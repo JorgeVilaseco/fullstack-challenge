@@ -1,13 +1,14 @@
-import { Flex, Stack, Text, useToast } from "@chakra-ui/react";
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import { ProjectsEmptyState } from "./ProjectsEmptyState";
-import { Project } from "../../interfaces/project.interface";
+import {Flex, Stack, Text, useToast} from "@chakra-ui/react";
+import React, {useCallback, useContext, useEffect, useState,} from "react";
+import {ProjectsEmptyState} from "./ProjectsEmptyState";
+import {Project} from "../../interfaces/project.interface";
 import ProjectsService from "../../services/ProjectsService";
-import { translate } from "../../utils/language.utils";
+import {translate} from "../../utils/language.utils";
 import ProjectItem from "./ProjectItem";
-import { useNavigate } from "react-router";
-import { ProjectsContext } from "../../context/projects";
+import {useNavigate} from "react-router";
+import {ProjectsContext} from "../../context/projects";
 
+//TODO: Move lazy loading to independent hook
 export default function ProjectsList() {
   const [projectList, setProjectList] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -16,19 +17,52 @@ export default function ProjectsList() {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const fetchProjects = useCallback(async (query?: string) => {
-    const projects = query
-      ? await ProjectsService.fetchProjectsBy(query, page, 15)
-      : await ProjectsService.fetchProjects();
-    if (projects && projects?.length !== 0) {
-      setProjectList(projects);
+  const fetchProjects = useCallback(async (query?: string, page?: number) => {
+    let projects: Project[];
+    if (query) {
+      projects = (await ProjectsService.fetchProjectsBy(query, page, 15)) || [];
+      if (projects.length !== 0) {
+        if (page) {
+          setProjectList((prevProjects) => [...prevProjects, ...projects]);
+        } else {
+          setProjectList(projects);
+        }
+        window.addEventListener("scroll", onScroll);
+      }
+    } else {
+      projects = (await ProjectsService.fetchProjects()) || [];
+      if (projects.length !== 0) setProjectList(projects);
     }
     setIsLoading(false);
   }, []);
+  const onScroll = () => {
+    const listContainer = document.getElementById("project-list");
+    if (!listContainer) return;
+    const { scrollY } = window;
+    const isNearBottom = scrollY >= listContainer.clientHeight * 0.8;
+
+    if (isNearBottom) {
+      console.log("Reached bottom");
+      setPage((prevState) => prevState + 1);
+      window.removeEventListener("scroll", onScroll);
+    }
+  };
+  useEffect(() => {
+    setPage(0);
+  }, [projectsContext]);
 
   useEffect(() => {
-    fetchProjects(projectsContext);
+    fetchProjects(projectsContext, page);
   }, [page, projectsContext]);
+
+  useEffect(() => {
+    console.log();
+    window.addEventListener("scroll", onScroll);
+    // Clean-up
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
 
   const onDelete = async (projectId: string) => {
     const deletedProject = await ProjectsService.deleteProject(projectId);
@@ -57,7 +91,7 @@ export default function ProjectsList() {
   }
 
   return (
-    <Stack spacing={8}>
+    <Stack id="project-list" spacing={8}>
       {projectList?.map((project) => (
         <ProjectItem key={project.id} project={project} onDelete={onDelete} />
       ))}
