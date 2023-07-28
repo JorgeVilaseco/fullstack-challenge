@@ -44,8 +44,8 @@ export class ProjectsController {
 
   @Get('inactive')
   getInactives(
-    @Query('page') page = 0,
-    @Query('pageSize') pageSize = 10,
+    @Query('page', ParseIntPipe) page = 0,
+    @Query('pageSize', ParseIntPipe) pageSize = 10,
     @Req() req,
   ) {
     return this.projectsService.getInactiveProjects(
